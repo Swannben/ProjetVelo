@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetVelo", "ProjetVelo\ProjetVelo.csproj", "{0D5001DF-94D8-4C5B-B93C-C9498A3088C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D5001DF-94D8-4C5B-B93C-C9498A3088C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D5001DF-94D8-4C5B-B93C-C9498A3088C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D5001DF-94D8-4C5B-B93C-C9498A3088C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D5001DF-94D8-4C5B-B93C-C9498A3088C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03D887B5-1EFA-4B5D-AAF3-951DEF215ED3}
+	EndGlobalSection
+EndGlobal
