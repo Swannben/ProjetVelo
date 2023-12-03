@@ -6,7 +6,7 @@ namespace ProjetVelo
     [Serializable]
     internal class NoCityException : Exception
     {
-        public NoCityException() 
+        public NoCityException()
         {
         }
 

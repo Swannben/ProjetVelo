@@ -1,13 +1,9 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjetVelo
 {
@@ -34,13 +30,13 @@ namespace ProjetVelo
 
         private Feature GetFeature(string response)
         {
-            
+
             Rootobject root = JsonConvert.DeserializeObject<Rootobject>(response);
             Feature feature = root.features.FirstOrDefault();
             return feature;
         }
 
-        public Feature GetFeatureWalk(GeoCoordinate start,GeoCoordinate end)
+        public Feature GetFeatureWalk(GeoCoordinate start, GeoCoordinate end)
         {
             return GetFeature(getWalkingDirections(start, end));
         }
@@ -115,14 +111,15 @@ namespace ProjetVelo
         public Step[] steps { get; set; }
     }
 
-    [DataContractAttribute] public class  Step
+    [DataContractAttribute]
+    public class Step
     {
         public Step(string instruction, string name)
         {
-            distance = 0;  
-            duration = 0;   
+            distance = 0;
+            duration = 0;
             this.instruction = instruction;
-            this.name = name;   
+            this.name = name;
         }
         [DataMemberAttribute] public float distance { get; set; }
         [DataMemberAttribute] public float duration { get; set; }

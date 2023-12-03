@@ -1,30 +1,27 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Text.Json;
 
 namespace ProjetVelo
 {
     internal class NominatimScraper
     {
-        string BaseUrl= "https://nominatim.openstreetmap.org";
+        string BaseUrl = "https://nominatim.openstreetmap.org";
         private readonly HttpClient _client;
 
         public NominatimScraper()
         {
-            _client= new HttpClient();
+            _client = new HttpClient();
             _client.DefaultRequestHeaders.Add("User-Agent", "ProjetVeloSwann");
         }
 
-        public async Task<GeoCoordinate> getPositionFromAdressAsync(string address) 
+        public async Task<GeoCoordinate> getPositionFromAdressAsync(string address)
         {
-            string FormatedAddress= Uri.EscapeDataString(address);
+            string FormatedAddress = Uri.EscapeDataString(address);
             HttpResponseMessage response = await _client.GetAsync($"{BaseUrl}/search?q={address.Replace(",", "")}");
             if (response.IsSuccessStatusCode)
             {
@@ -40,9 +37,9 @@ namespace ProjetVelo
         public string getCityFromPosition(GeoCoordinate geoCoordinate)
         {
             double latitude = geoCoordinate.Latitude;
-            string latString= latitude.ToString();
+            string latString = latitude.ToString();
             double longitude = geoCoordinate.Longitude;
-            string longString= longitude.ToString();
+            string longString = longitude.ToString();
             var json = (_client.GetStringAsync($"{BaseUrl}/reverse?lat={latString}&lon={longString}").Result);
             var parsedJson = JToken.Parse(json);
 
@@ -51,7 +48,7 @@ namespace ProjetVelo
                 parsedJson = parsedJson.FirstOrDefault();
             else if (parsedJson is JObject)
                 parsedJson = parsedJson;
-            else 
+            else
                 throw new NoCityException("could not find your position, try again");
 
 
@@ -59,7 +56,7 @@ namespace ProjetVelo
 
             string city = (string)address?["city"] ?? (string)address?["town"] ?? (string)address?["village"];
 
-            if (city==null)
+            if (city == null)
             {
                 throw new NoCityException("there was no city in your adress");
             }
@@ -67,7 +64,7 @@ namespace ProjetVelo
             return city;
         }
 
-        
+
     }
     public class AddressJsonClass
     {
