@@ -4,6 +4,7 @@ using System.Device.Location;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace ProjetVelo
 {
@@ -18,14 +19,33 @@ namespace ProjetVelo
             _client = new HttpClient();
         }
 
-        public string getWalkingDirections(GeoCoordinate start, GeoCoordinate end)
+        public async Task<string> getWalkingDirectionsAsync(GeoCoordinate start, GeoCoordinate end)
         {
-            return _client.GetStringAsync($"{BaseUrl}foot_walking?api_key={apiKey}&start={start.Longitude},{start.Latitude}&end={end.Longitude},{end.Latitude}").Result;
+            string startString = $"{start.Longitude.ToString().Replace(",",".")},{start.Latitude.ToString().Replace(",",".")}";
+            string endString = $"{end.Longitude.ToString().Replace(",", ".")},{end.Latitude.ToString().Replace(",", ".")}";
+            HttpResponseMessage response = await this._client.GetAsync($"{BaseUrl}foot-walking?api_key={apiKey}&start={startString}&end={endString}");
+            if (response.IsSuccessStatusCode)
+            {
+
+                string toreturn = await  response.Content.ReadAsStringAsync();
+                return toreturn;
+            }
+            throw new Exception("couldn't get your walking directions");
         }
 
-        public string getCyclingDirections(GeoCoordinate start, GeoCoordinate end)
+        public async Task<string> getCyclingDirectionsAsync(GeoCoordinate start, GeoCoordinate end)
         {
-            return _client.GetStringAsync($"{BaseUrl}cycling-road?api_key={apiKey}&start={start.Longitude},{start.Latitude}&end={end.Longitude},{end.Latitude}").Result;
+
+            string startString = $"{start.Longitude.ToString().Replace(",", ".")},{start.Latitude.ToString().Replace(",", ".")}";
+            string endString = $"{end.Longitude.ToString().Replace(",", ".")},{end.Latitude.ToString().Replace(",", ".")}";
+            HttpResponseMessage response = await this._client.GetAsync($"{BaseUrl}cycling-road?api_key={apiKey}&start={startString}&end={endString}");
+            if (response.IsSuccessStatusCode)
+            {
+                string toreturn = await response.Content.ReadAsStringAsync();
+                return toreturn;
+            }
+
+            throw new Exception("couldn't get your cycling directions");
         }
 
         private Feature GetFeature(string response)
@@ -36,14 +56,16 @@ namespace ProjetVelo
             return feature;
         }
 
-        public Feature GetFeatureWalk(GeoCoordinate start, GeoCoordinate end)
+        public async Task<Feature> GetFeatureWalk(GeoCoordinate start, GeoCoordinate end)
         {
-            return GetFeature(getWalkingDirections(start, end));
+            string walkingDirections = await  getWalkingDirectionsAsync(start, end);
+            return GetFeature(walkingDirections);
         }
 
-        public Feature GetFeatureCycle(GeoCoordinate start, GeoCoordinate end)
+        public async Task<Feature> GetFeatureCycle(GeoCoordinate start, GeoCoordinate end)
         {
-            return GetFeature(getCyclingDirections(start, end));
+            string cyclingDirections = await getCyclingDirectionsAsync(start, end);
+            return GetFeature(cyclingDirections);
         }
 
 

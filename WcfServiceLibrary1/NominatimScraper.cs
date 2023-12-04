@@ -22,25 +22,25 @@ namespace ProjetVelo
         public async Task<GeoCoordinate> getPositionFromAdressAsync(string address)
         {
             string FormatedAddress = Uri.EscapeDataString(address);
-            HttpResponseMessage response = await _client.GetAsync($"{BaseUrl}/search?q={address.Replace(",", "")}");
+            HttpResponseMessage response = await _client.GetAsync($"{BaseUrl}/search?q={address.Replace(",", "")}&format=json");
             if (response.IsSuccessStatusCode)
             {
                 string responseString = await response.Content.ReadAsStringAsync();
-                List<AddressJsonClass> addressJson = System.Text.Json.JsonSerializer.Deserialize<List<AddressJsonClass>>(responseString);
-                AddressJsonClass parsedaddress = addressJson.FirstOrDefault();
-                return new GeoCoordinate(Double.Parse(parsedaddress.lat), Double.Parse(parsedaddress.lon));
+                List<Class1> addressJson = System.Text.Json.JsonSerializer.Deserialize<List<Class1>>(responseString);
+                Class1 parsedaddress = addressJson.FirstOrDefault();
+                return new GeoCoordinate(Double.Parse(parsedaddress.lat.Replace(".", ",")), Double.Parse(parsedaddress.lon.Replace(".", ",")));
             }
             throw new Exception("can't find the address you searched");
 
         }
 
-        public string getCityFromPosition(GeoCoordinate geoCoordinate)
+        public async Task<string> getCityFromPosition(GeoCoordinate geoCoordinate)
         {
             double latitude = geoCoordinate.Latitude;
-            string latString = latitude.ToString();
+            string latString = latitude.ToString().Replace(",", ".");
             double longitude = geoCoordinate.Longitude;
-            string longString = longitude.ToString();
-            var json = (_client.GetStringAsync($"{BaseUrl}/reverse?lat={latString}&lon={longString}").Result);
+            string longString = longitude.ToString().Replace(",", ".");
+            var json =  await (_client.GetStringAsync($"{BaseUrl}/reverse?lat={latString}&lon={longString}&format=json"));
             var parsedJson = JToken.Parse(json);
 
 
@@ -54,7 +54,7 @@ namespace ProjetVelo
 
             var address = parsedJson["address"];
 
-            string city = (string)address?["city"] ?? (string)address?["town"] ?? (string)address?["village"];
+            string city = (string)address?["municipality"] ??(string)address?["city"] ?? (string)address?["town"] ?? (string)address?["village"];
 
             if (city == null)
             {
@@ -66,21 +66,28 @@ namespace ProjetVelo
 
 
     }
-    public class AddressJsonClass
+
+    public class baseObject
+    {
+        public Class1[] Property1 { get; set; }
+    }
+
+    public class Class1
     {
         public int place_id { get; set; }
         public string licence { get; set; }
         public string osm_type { get; set; }
-        public int osm_id { get; set; }
+        public long osm_id { get; set; }
         public string lat { get; set; }
         public string lon { get; set; }
-        public string @class { get; set; }
+        public string _class { get; set; }
         public string type { get; set; }
         public int place_rank { get; set; }
-        public double importance { get; set; }
+        public float importance { get; set; }
         public string addresstype { get; set; }
         public string name { get; set; }
         public string display_name { get; set; }
-        public List<string> boundingbox { get; set; }
+        public string[] boundingbox { get; set; }
     }
+
 }

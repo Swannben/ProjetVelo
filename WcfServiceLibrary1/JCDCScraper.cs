@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace ProjetVelo
 {
@@ -15,9 +16,15 @@ namespace ProjetVelo
             this._client = new HttpClient();
         }
 
-        private string getStationsResponse(string city)
+        private async Task<string> getStationsResponseAsync(string city)
         {
-            return this._client.GetStringAsync($"{BaseUrl}&contract={city}").Result;
+            HttpResponseMessage response = await this._client.GetAsync($"{BaseUrl}&contract={city}");
+            if (response.IsSuccessStatusCode)
+            {
+                string toreturn = await response.Content.ReadAsStringAsync();
+                return toreturn;
+            }
+            throw new System.Exception("your city doesnt have a contract");
         }
 
         // Parser le JSON
@@ -27,9 +34,10 @@ namespace ProjetVelo
             return JsonConvert.DeserializeObject<List<Station>>(response);
         }
 
-        public List<Station> getStations(string city)
+        public async Task<List<Station>> getStationsAsync(string city)
         {
-            return parse(getStationsResponse(city));
+            string stationsResponse = await getStationsResponseAsync(city);
+            return parse(stationsResponse);
         }
 
         public static Station findClosestStation(GeoCoordinate chosenLocation, List<Station> stations)
