@@ -19,7 +19,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="GetDataResult" type="{http://schemas.datacontract.org/2004/07/ProjetVelo}Feature" minOccurs="0"/&gt;
+ *         &lt;element name="GetDataResult" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -32,21 +32,21 @@ import jakarta.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "getDataResult"
 })
-@XmlRootElement(name = "GetDataResponse", namespace = "http://tempuri.org/")
+@XmlRootElement(name = "GetDataResponse")
 public class GetDataResponse {
 
     @XmlElementRef(name = "GetDataResult", namespace = "http://tempuri.org/", type = JAXBElement.class, required = false)
-    protected JAXBElement<Feature> getDataResult;
+    protected JAXBElement<String> getDataResult;
 
     /**
      * Obtient la valeur de la propriété getDataResult.
      * 
      * @return
      *     possible object is
-     *     {@link JAXBElement }{@code <}{@link Feature }{@code >}
+     *     {@link JAXBElement }{@code <}{@link String }{@code >}
      *     
      */
-    public JAXBElement<Feature> getGetDataResult() {
+    public JAXBElement<String> getGetDataResult() {
         return getDataResult;
     }
 
@@ -55,10 +55,10 @@ public class GetDataResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link JAXBElement }{@code <}{@link Feature }{@code >}
+     *     {@link JAXBElement }{@code <}{@link String }{@code >}
      *     
      */
-    public void setGetDataResult(JAXBElement<Feature> value) {
+    public void setGetDataResult(JAXBElement<String> value) {
         this.getDataResult = value;
     }
 

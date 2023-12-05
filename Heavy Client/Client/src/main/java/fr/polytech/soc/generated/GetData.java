@@ -34,7 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
     "depart",
     "arrivee"
 })
-@XmlRootElement(name = "GetData", namespace = "http://tempuri.org/")
+@XmlRootElement(name = "GetData")
 public class GetData {
 
     @XmlElementRef(name = "depart", namespace = "http://tempuri.org/", type = JAXBElement.class, required = false)

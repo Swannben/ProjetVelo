@@ -28,7 +28,7 @@ public interface IService1 {
      * @param arrivee
      * @param depart
      * @return
-     *     returns fr.polytech.soc.generated.Feature
+     *     returns java.lang.String
      */
     @WebMethod(operationName = "GetData", action = "http://tempuri.org/IService1/GetData")
     @WebResult(name = "GetDataResult", targetNamespace = "http://tempuri.org/")
@@ -39,19 +39,5 @@ public interface IService1 {
         String depart,
         @WebParam(name = "arrivee", targetNamespace = "http://tempuri.org/")
         String arrivee);
-
-    /**
-     * 
-     * @param composite
-     * @return
-     *     returns fr.polytech.soc.generated.CompositeType
-     */
-    @WebMethod(operationName = "GetDataUsingDataContract", action = "http://tempuri.org/IService1/GetDataUsingDataContract")
-    @WebResult(name = "GetDataUsingDataContractResult", targetNamespace = "http://tempuri.org/")
-    @RequestWrapper(localName = "GetDataUsingDataContract", targetNamespace = "http://tempuri.org/", className = "fr.polytech.soc.generated.GetDataUsingDataContract")
-    @ResponseWrapper(localName = "GetDataUsingDataContractResponse", targetNamespace = "http://tempuri.org/", className = "fr.polytech.soc.generated.GetDataUsingDataContractResponse")
-    public CompositeType getDataUsingDataContract(
-        @WebParam(name = "composite", targetNamespace = "http://tempuri.org/")
-        CompositeType composite);
 
 }

@@ -71,8 +71,6 @@ public class Service1
     public IService1 getBasicHttpBindingIService1() {
         return super.getPort(new QName("http://tempuri.org/", "BasicHttpBinding_IService1"), IService1.class);
     }
-    //function to caclulate prime numbers
-
 
     /**
      * 
