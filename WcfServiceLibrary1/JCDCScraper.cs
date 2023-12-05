@@ -24,6 +24,12 @@ namespace ProjetVelo
                 string toreturn = await response.Content.ReadAsStringAsync();
                 return toreturn;
             }
+            response = await this._client.GetAsync($"{BaseUrl}");
+            if (response.IsSuccessStatusCode)
+            {
+                string toreturn = await response.Content.ReadAsStringAsync();
+                return toreturn;
+            }
             throw new System.Exception("your city doesnt have a contract");
         }
 
@@ -51,7 +57,7 @@ namespace ProjetVelo
                 stationLocation = new GeoCoordinate(station.position.lat, station.position.lng);
                 double distance = chosenLocation.GetDistanceTo(stationLocation);
 
-                if (distance < closestDistance)
+                if (distance < closestDistance && station.available_bikes>0)
                 {
                     closestDistance = distance;
                     closestStation = station;
@@ -60,5 +66,29 @@ namespace ProjetVelo
 
             return closestStation;
         }
+
+
+        public static Station findClosestStationEnd(GeoCoordinate chosenLocation, List<Station> stations)
+        {
+            double closestDistance = double.MaxValue;
+            Station closestStation = null;
+            GeoCoordinate stationLocation;
+            foreach (var station in stations)
+            {
+
+                stationLocation = new GeoCoordinate(station.position.lat, station.position.lng);
+                double distance = chosenLocation.GetDistanceTo(stationLocation);
+
+                if (distance < closestDistance && station.available_bike_stands > 0)
+                {
+                    closestDistance = distance;
+                    closestStation = station;
+                }
+            }
+
+            return closestStation;
+        }
+
+
     }
 }

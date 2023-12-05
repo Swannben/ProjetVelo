@@ -42,7 +42,7 @@ namespace ProjetVelo
 
             // find the closest station to your starting and endind position
             Station firstStation = JCDCScraper.findClosestStation(start, stationsStart);
-            Station secondStation = JCDCScraper.findClosestStation(end, stationsEnd);
+            Station secondStation = JCDCScraper.findClosestStationEnd(end, stationsEnd);
 
             // find the best way to go get a bike and then drive to the station closest to destination and then go to your destination 
             Feature feature1 = await openStreetMap.GetFeatureWalk(start, firstStation.position.GetGeoCoordinate());
