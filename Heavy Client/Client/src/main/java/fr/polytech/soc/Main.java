@@ -39,6 +39,7 @@ public class Main {
             //Je transforme je json en objet java puis je print chaque etape de le itineraire
             //TODO
             // TODO
+
             JSONObject jsonObject = new JSONObject(jsonItinerary);
 
             JSONArray steps = jsonObject.getJSONArray("steps");

@@ -28,23 +28,29 @@ namespace ProjetVelo
             GeoCoordinate end = await nominatim.getPositionFromAdressAsync(arrivee);
 
             //get the city from the geoCoordinates
+            Console.Write("Searching cities...\n");
             String CityStart = await nominatim.getCityFromPosition(start);
             String CityEnd = await nominatim.getCityFromPosition(end);
 
 
             // get the list of stations in the given city from the JCDecaux API
+            Console.Write("Searching stations...\n");
             List<Station> stationsStart = await JCDC.getStationsAsync(CityStart);
             List<Station> stationsEnd = stationsStart;
+            Console.WriteLine("are two cities the same ?");
             if (CityStart != CityEnd)
             {
+                Console.WriteLine("no they aren't !");
                 stationsEnd = await  JCDC.getStationsAsync(CityEnd);
             }
 
             // find the closest station to your starting and endind position
+            Console.Write("finding closest stations...\n");
             Station firstStation = JCDCScraper.findClosestStation(start, stationsStart);
             Station secondStation = JCDCScraper.findClosestStationEnd(end, stationsEnd);
 
             // find the best way to go get a bike and then drive to the station closest to destination and then go to your destination 
+
             Feature feature1 = await openStreetMap.GetFeatureWalk(start, firstStation.position.GetGeoCoordinate());
             Feature feature2 = await openStreetMap.GetFeatureCycle(firstStation.position.GetGeoCoordinate(), secondStation.position.GetGeoCoordinate());
             Feature feature3 = await openStreetMap.GetFeatureWalk(secondStation.position.GetGeoCoordinate(), end);

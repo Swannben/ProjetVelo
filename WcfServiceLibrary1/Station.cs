@@ -13,7 +13,7 @@
         public int available_bike_stands { get; set; }
         public int available_bikes { get; set; }
         public string status { get; set; }
-        public long last_update { get; set; }
+        public long? last_update { get; set; }
 
         public string ToString()
         {
