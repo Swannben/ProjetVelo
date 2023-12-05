@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import javax.xml.namespace.QName;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -41,17 +42,53 @@ public class Main {
             JSONObject jsonObject = new JSONObject(jsonItinerary);
 
             JSONArray steps = jsonObject.getJSONArray("steps");
+            ArrayList<String> stepsList = new ArrayList<String>();
+
             for (int i = 0; i < steps.length(); i++) {
+                String stepStr ="";
                 JSONObject step = steps.getJSONObject(i);
                 double distance = step.getDouble("distance");
                 double duration = step.getDouble("duration");
                 String instruction = step.getString("instruction");
 
-                System.out.println("Step " + (i + 1) + ":");
-                System.out.println("  Distance: " + distance + " meters");
-                System.out.println("  Duration: " + duration + " seconds");
-                System.out.println("  Instruction: " + instruction);
-                System.out.println();
+                stepStr+=("Step " + (i + 1) + ":\n");
+                stepStr+=("  Distance: " + distance + " meters\n");
+                stepStr+=("  Duration: " + duration + " seconds\n");
+                stepStr+=("  Instruction: " + instruction+"\n");
+                stepStr+="\n";
+                stepsList.add(stepStr);
+            }
+            int i=0;
+            boolean quit=false;
+            while(quit!=true){
+                System.out.println(stepsList.get(i));
+                System.out.println("Press n to continue, p to go back,u to update or q to quit");
+                String input = scanner.nextLine();
+                if(input.equals("q")){
+                    quit=true;
+                }
+                else if(input.equals("n")){
+                    if(i<stepsList.size()-1){
+                        i++;
+                    }
+                    else{
+                        System.out.println("You are at the end of the itinerary");
+                    }
+                }
+                else if(input.equals("p")){
+                    if(i>0){
+                        i--;
+                    }
+                    else{
+                        System.out.println("You are at the beginning of the itinerary");
+                    }
+                }
+                else if(input.equals("u")){
+                }
+                else{
+                    System.out.println("Invalid input");
+                }
+
             }
 
 
