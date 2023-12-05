@@ -36,6 +36,7 @@ namespace ProjetVelo
 
         public async Task<string> getCityFromPosition(GeoCoordinate geoCoordinate)
         {
+            Console.Write($"recherche de ville aux coordonées{geoCoordinate}");
             double latitude = geoCoordinate.Latitude;
             string latString = latitude.ToString().Replace(",", ".");
             double longitude = geoCoordinate.Longitude;

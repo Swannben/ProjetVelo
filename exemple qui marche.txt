@@ -1,0 +1,4 @@
+Entrez le point de départ: 
+13 rue sergent buttin
+Entrez le point d'arrivée: 
+place bellecour
