@@ -22,7 +22,8 @@ namespace ProjetVelo
             if (response.IsSuccessStatusCode)
             {
                 string toreturn = await response.Content.ReadAsStringAsync();
-                return toreturn;
+                if (toreturn!= "[]")
+                    return toreturn;
             }
             response = await this._client.GetAsync($"{BaseUrl}");
             if (response.IsSuccessStatusCode)
