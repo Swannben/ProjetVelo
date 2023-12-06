@@ -17,9 +17,10 @@ namespace ProjetVelo
 
         public async Task<string> GetData(string depart, string arrivee)
         {
-            // instantiate the scrapers for the different apis
+            // instantiate the scrapers and managers for the different apis
 
-            JCDCScraper JCDC = new JCDCScraper();
+            JCDCManager JCDC = new JCDCManager();
+            Console.WriteLine("on est arrivé là c'est bon !!");
             OpenStreetMapScraper openStreetMap = new OpenStreetMapScraper();
             NominatimScraper nominatim = new NominatimScraper();
 
@@ -34,18 +35,14 @@ namespace ProjetVelo
 
 
             // get the list of stations in the given city from the JCDecaux API
-            Console.Write("Searching stations...\n");
             List<Station> stationsStart = await JCDC.getStationsAsync(CityStart);
             List<Station> stationsEnd = stationsStart;
-            Console.WriteLine("are two cities the same ?");
             if (CityStart != CityEnd)
             {
-                Console.WriteLine("no they aren't !");
                 stationsEnd = await  JCDC.getStationsAsync(CityEnd);
             }
 
             // find the closest station to your starting and endind position
-            Console.Write("finding closest stations...\n");
             Station firstStation = JCDCScraper.findClosestStation(start, stationsStart);
             Station secondStation = JCDCScraper.findClosestStationEnd(end, stationsEnd);
 
@@ -54,7 +51,6 @@ namespace ProjetVelo
             Feature feature1 = await openStreetMap.GetFeatureWalk(start, firstStation.position.GetGeoCoordinate());
             Feature feature2 = await openStreetMap.GetFeatureCycle(firstStation.position.GetGeoCoordinate(), secondStation.position.GetGeoCoordinate());
             Feature feature3 = await openStreetMap.GetFeatureWalk(secondStation.position.GetGeoCoordinate(), end);
-
             returnClass returnObject = new returnClass(feature1.properties.segments.FirstOrDefault().steps, feature1.properties.segments.FirstOrDefault().duration, feature1.properties.segments.FirstOrDefault().distance, feature2.geometry.coordinates);
 
             returnObject.duration += feature2.properties.segments.FirstOrDefault().duration;

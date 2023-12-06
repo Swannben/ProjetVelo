@@ -36,9 +36,6 @@ public class Main {
             String arrivee = scanner.nextLine();
             System.out.println("Calcul de l'itinéraire entre " + depart + " et " + arrivee);
             String jsonItinerary = port.getData(depart, arrivee);
-            //Je transforme je json en objet java puis je print chaque etape de le itineraire
-            //TODO
-            // TODO
 
             JSONObject jsonObject = new JSONObject(jsonItinerary);
 
@@ -63,7 +60,7 @@ public class Main {
             boolean quit=false;
             while(quit!=true){
                 System.out.println(stepsList.get(i));
-                System.out.println("Press n to continue, p to go back,u to update or q to quit");
+                System.out.println("Press n to continue, p to go back, or q to quit");
                 String input = scanner.nextLine();
                 if(input.equals("q")){
                     quit=true;
@@ -83,8 +80,6 @@ public class Main {
                     else{
                         System.out.println("You are at the beginning of the itinerary");
                     }
-                }
-                else if(input.equals("u")){
                 }
                 else{
                     System.out.println("Invalid input");

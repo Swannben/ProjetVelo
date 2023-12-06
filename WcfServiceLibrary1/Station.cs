@@ -1,6 +1,6 @@
 ﻿namespace ProjetVelo
 {
-    internal class Station
+    public class Station
     {
         public int number { get; set; }
         public string contract_name { get; set; }
